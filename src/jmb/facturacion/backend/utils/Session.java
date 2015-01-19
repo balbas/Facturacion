@@ -1,5 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Global.
+ * To change this license header, choose License Headers in Project Session.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -9,23 +9,19 @@ package jmb.facturacion.backend.utils;
  *
  * @author jose
  */
-public class Global {
-    public Global() {}
-    
-    public void setCorporate(String corporate) {
-        this.CORPORATE = corporate;
-    }
-    
-    public void setDate(String date) {
+public class Session {
+    public Session(String company, String date, String hour) {
+        this.COMPANY = company;
         this.DATE = date;
-    }
-    
-    public void setHour(String hour) {
         this.HOUR = hour;
     }
     
-    public String getCorporate() {
-        return this.CORPORATE;
+    public void sessionRegister() {
+        
+    }
+    
+    public String getCompany() {
+        return this.COMPANY;
     }
     
     public String getDate() {
@@ -36,7 +32,7 @@ public class Global {
         return this.HOUR;
     }
     
-    public String CORPORATE = null;
+    public String COMPANY = null;
     public String DATE = null;
     public String HOUR = null;
 }

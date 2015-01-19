@@ -5,6 +5,11 @@
  */
 package jmb.facturacion.frontend.views;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import jmb.facturacion.backend.bbdd.Sqlite;
 import jmb.facturacion.backend.utils.EncryptToMd5;
 
@@ -92,19 +97,41 @@ public class Login extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConectarActionPerformed
-        //new Sqlite().connect();
-        
         // Encriptamos la contraseña
         char[] pass = jPasswordFieldContraseña.getPassword();
-        String final_pass = "";
+        String finalPass = "";
         for (char x : pass) {
-            final_pass += x;
+            finalPass += x;
         }
-        String contraseña = new EncryptToMd5(final_pass).getMd5();
-        System.out.println(contraseña);
-        
-        // Montamos la selección
-        String query = "select id, password from empresas where id=" + Integer.valueOf(jTextFieldEmpresa.getText()) + " and password='" + contraseña + "';";
+        String contraseña = new EncryptToMd5(finalPass).getMd5();
+        // Preparamos variable de conexión con la bbdd
+        Sqlite conn = new Sqlite();
+        Statement stmt = null;
+        ResultSet rs = null;
+        // Lanzamos selección
+        try {
+            conn.connect();
+            stmt = conn.getConnection().createStatement();
+            rs = stmt.executeQuery("select id, password from empresas where id=" + Integer.valueOf(jTextFieldEmpresa.getText()) + " and password='" + contraseña + "';");
+            if (rs.next()) {
+                // Si el usuario y password son correctos, iniciamos la sesión
+                System.out.println("Logging successfully \n");
+                this.dispose();
+            } else {
+                jTextFieldEmpresa.setText("");
+                jPasswordFieldContraseña.setText("");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if(rs != null) rs.close();
+                if(stmt != null) stmt.close();
+                conn.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_jButtonConectarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -16,14 +16,15 @@ import java.util.logging.Logger;
  * @author jose
  */
 public class Sqlite {
-    private final String url = ""; // 
+    private final String url = "C:\\Users\\jmbalbas\\Documents\\NetBeansProjects\\Facturacion\\facturacion"; // Ruta a la base de datos
     private Connection connect;
 
     public void connect() {
         try {
             connect = DriverManager.getConnection("jdbc:sqlite:" + url);
             if (connect != null) {
-                System.out.println("Conectado");
+                connect.setAutoCommit(false);
+                System.out.println("Opened database successfully \n");
             }
         } catch (SQLException ex) {
             System.err.println("No se ha podido conectar a la base de datos \n" + ex.getMessage());
