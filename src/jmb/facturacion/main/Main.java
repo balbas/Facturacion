@@ -7,7 +7,7 @@ package jmb.facturacion.main;
 
 import java.awt.EventQueue;
 import javax.swing.UnsupportedLookAndFeelException;
-import jmb.facturacion.frontend.views.Menu;
+import jmb.facturacion.frontend.views.WebMenu;
 
 /**
  *
@@ -27,7 +27,7 @@ public class Main {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new Menu();
+                new WebMenu();
             }
         });
     }

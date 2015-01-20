@@ -1,0 +1,182 @@
+html, body {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.container{
+	width: 98%;
+	margin: 0 auto;
+}
+
+.header{
+  background:url('../images/arrows-up.png') no-repeat;
+  background-position: left;
+  cursor:pointer;
+  width: 50px;
+}
+
+.collapsed .header{
+  background-image:url('../images/arrows-down.png');
+}
+
+.content{
+  height:auto;
+  min-height:100px;
+  overflow:hidden;
+  padding-top: 0.5em;
+}
+.collapsed .content{
+  min-height:0px;
+  height:0px;
+}
+
+.content div {
+	display: inline-table;
+	width: 23%;
+	padding: 0em 0.5em 0.5em;
+	
+}
+
+.arrows-down {
+	background: url('../images/arrows-down.png') no-repeat;
+	bottom: 0px;
+	display: block;
+	overflow: hidden;
+	position: absolute;
+	text-indent: -3000em;
+	width: 40px;
+	height: 40px;
+	cursor: pointer;
+}
+
+.arrows-up {
+	cursor: pointer;
+	background: url('../images/arrows-up.png') no-repeat;
+	bottom: 0px;
+	display: block;
+	overflow: hidden;
+	position: absolute;
+	text-indent: -3000em;
+	width: 40px;
+}
+
+.contenido {
+    width:100%;
+}
+.cbp-hrmenu .cbp-hrsub-inner .container > div {
+width: initial;
+display: inline-table;
+padding: 0.5em 0.5em 0.5em;
+}
+
+.container > div a {
+	line-height: 2em;
+}
+
+.container > div ul li {
+	margin-left: 20px;
+}
+
+.container > div ul {
+	border-left: 1px;
+	border-left-style: dotted;
+	border-left-color: #afdefa;
+}
+
+#full-screen-background-image {
+  z-index: -999;
+  min-height: 100%;
+  min-width: 100%;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.logos {
+	position: fixed;
+	bottom: 18px;
+	left: 20px;
+	height: 55px;
+}
+
+.trans {
+	filter:alpha(opacity=20);
+	-moz-opacity:.20;
+	opacity:.20;
+}
+
+.logos .quiter {
+	top: 0px;
+}
+.logos .autoweb {
+	bottom: 5px;
+	position: absolute;
+	left: 30px;
+}
+
+#wrapper {
+  position: relative;
+  width: 800px;
+  min-height: 400px;
+  margin: 100px auto;
+  color: #333;
+}
+
+* Reset */
+*,
+*:after,
+*:before {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.clearfix:after {
+	clear: both;
+}
+
+body {
+    font-family: Helvetica Neue, Helvetica, Verdana, Arial, sans-serif;
+    color: #0097a3;
+    font-weight: 400;
+}
+
+a {
+	color: #f0f0f0;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #afdefa;
+}
+
+span.pie{
+	position:fixed;
+	left:0px;
+	bottom:0px;
+	width:100%;
+	font-size:10px;
+	line-height:20px;
+	text-align:right;
+	height:20px;
+	/*background: transparent url(../images/pattern2.png) repeat top left;*/
+	background-color: rgba(0, 0, 0, 0.25);	
+	background-size: 2px 2px;
+
+}
+span.pie a{
+	color:#fff;
+	text-decoration:none;
+	text-transform:uppercase;
+	margin-right:10px;
+	
+}
+span.logo{
+	position:fixed;
+	right:10px;
+	top:10px;
+	
+}
