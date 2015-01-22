@@ -15,8 +15,8 @@ import java.util.logging.Logger;
  *
  * @author jose
  */
-public class Sqlite {
-    private final String url = "C:\\Users\\jmbalbas\\Documents\\NetBeansProjects\\Facturacion\\facturacion"; // Ruta a la base de datos
+public class ConnectionBBDD {
+    private final String url = "C:\\Users\\jmbalbas\\Documents\\NetBeansProjects\\Facturacion\\facturacion.db"; // Ruta a la base de datos
     private Connection connect;
 
     public void connect() {
@@ -39,7 +39,7 @@ public class Sqlite {
         try {
             connect.close();
         } catch (SQLException ex) {
-            Logger.getLogger(Sqlite.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ConnectionBBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

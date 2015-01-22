@@ -9,8 +9,8 @@ package jmb.facturacion.backend.utils;
  *
  * @author jose
  */
-public class EncryptToMd5 {
-    public EncryptToMd5(String md5) {
+public class EncryptString {
+    public EncryptString(String md5) {
         try {
             java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
             byte[] array = md.digest(md5.getBytes());
@@ -21,12 +21,12 @@ public class EncryptToMd5 {
             for (int i = 0; i < array.length; ++i) {
                 sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1,3));
             }
-            this.md5 = sb.toString();
+            md5 = sb.toString();
         } catch (java.security.NoSuchAlgorithmException e) {}
     }
     
     public String getMd5() {
-        return this.md5;
+        return md5;
     }
     
     private String md5 = null;
