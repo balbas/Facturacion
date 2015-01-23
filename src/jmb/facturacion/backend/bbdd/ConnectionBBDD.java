@@ -10,24 +10,27 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jmb.facturacion.backend.utils.PropertiesFile;
 
 /**
  *
  * @author jose
  */
 public class ConnectionBBDD {
-    private final String url = "C:\\Users\\jmbalbas\\Documents\\NetBeansProjects\\Facturacion\\facturacion.db"; // Ruta a la base de datos
-    private Connection connect;
+    public ConnectionBBDD() {
+        this.url = PropertiesFile.getInstance().getProperty(PropertiesFile.BBDD_URL);
+        this.user = PropertiesFile.getInstance().getProperty(PropertiesFile.BBDD_USER);
+        this.password = PropertiesFile.getInstance().getProperty(PropertiesFile.BBDD_PASSWORD);
+    }
 
     public void connect() {
         try {
-            connect = DriverManager.getConnection("jdbc:sqlite:" + url);
+            this.connect = DriverManager.getConnection("jdbc:" + PropertiesFile.getInstance().getProperty(PropertiesFile.BBDD_TYPE).toLowerCase() + ":" + this.url, this.user, this.password);
             if (connect != null) {
                 connect.setAutoCommit(false);
-                System.out.println("Opened database successfully \n");
             }
         } catch (SQLException ex) {
-            System.err.println("No se ha podido conectar a la base de datos \n" + ex.getMessage());
+            Logger.getLogger(ConnectionBBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -42,4 +45,9 @@ public class ConnectionBBDD {
             Logger.getLogger(ConnectionBBDD.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    private final String url;
+    private final String user;
+    private final String password;
+    private Connection connect;
 }

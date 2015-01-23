@@ -30,10 +30,10 @@ public class Login extends JDialog {
         initComponents();
         setTitle("Conexión al sistema de Facturación");
         setLocationRelativeTo(null);
-        jLabelVersion.setText("v" + version);
+        this.jLabelVersion.setText("v" + version);
         
         // Inicializamos la variable de id de la sesión para que no de error si se cierra el programa sin hacer login
-        idSession = 0;
+        this.idSession = 0;
     }
 
     /**
@@ -170,35 +170,32 @@ public class Login extends JDialog {
 
     private void jButtonConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConectarActionPerformed
         // Encriptamos la contraseña
-        char[] pass = jPasswordFieldContraseña.getPassword();
+        char[] pass = this.jPasswordFieldContraseña.getPassword();
         String finalPass = "";
         for (char x : pass) {
             finalPass += x;
         }
         String contraseña = new EncryptString(finalPass).getMd5();
-        // Preparamos variable de conexión con la bbdd
-        //Sqlite conn = new ConnectionBBDD();
-        //Statement stmt = null;
-        //ResultSet rs = null;
-        session = new Session();
+
         // Lanzamos selección
+        this.session = new Session();
         try {
-            session.CONNECTION.connect();
-            session.STATEMENT = session.CONNECTION.getConnection().createStatement();
-            session.RESULTSET = session.STATEMENT.executeQuery("SELECT id, password FROM empresas WHERE id=" + Integer.valueOf(jTextFieldEmpresa.getText()) + " and password='" + contraseña + "';");
-            if (session.RESULTSET.next()) {
+            this.session.CONNECTION.connect();
+            this.session.STATEMENT = this.session.CONNECTION.getConnection().createStatement();
+            this.session.RESULTSET = this.session.STATEMENT.executeQuery("SELECT id, password FROM empresas WHERE id=" + Integer.valueOf(this.jTextFieldEmpresa.getText()) + " and password='" + contraseña + "';");
+            if (this.session.RESULTSET.next()) {
                 // Si el usuario y password son correctos, registramos la sesión (empresa, fecha y hora)
                 Date date = new Date(); 
                 SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
                 SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm:ss");                
-                session.register(Integer.valueOf(jTextFieldEmpresa.getText()), formatoFecha.format(date), formatoHora.format(date));
+                this.session.register(Integer.valueOf(this.jTextFieldEmpresa.getText()), formatoFecha.format(date), formatoHora.format(date));
                 
-                idSession = session.getIdSession();
+                this.idSession = this.session.getIdSession();
                 
-                dispose();
+                this.dispose();
             } else {
-                jTextFieldEmpresa.setText("");
-                jPasswordFieldContraseña.setText("");
+                this.jTextFieldEmpresa.setText("");
+                this.jPasswordFieldContraseña.setText("");
             }
         } catch (SQLException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
@@ -210,7 +207,7 @@ public class Login extends JDialog {
     }//GEN-LAST:event_jButtonParametrosBBDDActionPerformed
 
     public Integer returnIdSession() {
-        return idSession;
+        return this.idSession;
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

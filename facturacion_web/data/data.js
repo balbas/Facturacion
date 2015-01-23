@@ -78,7 +78,7 @@ var data = { menus: [
 		opciones: [
     {
       label: 'Parámetros de la Base de Datos',
-			href: 'quiter://SCR.CONTA.CRTEDCOMCG'
+			href: 'facturacion://jmb.facturacion.frontend.views.ParametersBBDD'
 		},
 		{
       label: 'Copias de Seguridad',

@@ -14,6 +14,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -27,59 +34,99 @@ import jmb.facturacion.backend.utils.Parameters;
  * @author jmbalbas
  */
 public class WebMenu extends JFrame implements ActionListener {
-    public WebMenu() {
-        // Abrimos interface nativa
-        NativeInterface.open();
-        
+    public WebMenu() {        
         // Cargamos los parámetros de la aplicación
-        Parameters parameters = new Parameters();
+        this.parameters = new Parameters();
         
         // Iniciamos la ventana principal
-        jFrameMenu = new JFrame("Facturación v" + parameters.getVersion());
+        this.jFrameMenu = new JFrame("Facturación v" + parameters.getVersion());
 
         // Lanzamos el login
-        login = new Login(this, true, parameters.getVersion());
-        login.setVisible(true);
+        this.login = new Login(this, true, parameters.getVersion());
+        this.login.setVisible(true);
         
         // Comprobamos si hay sesión
-        if (login.returnIdSession() != 0) {            
+        if (this.login.returnIdSession() != 0) {
             // Establecemos el layout
-            jFrameMenu.setLayout(new BorderLayout());         
+            this.jFrameMenu.setLayout(new BorderLayout());         
 
             // Web Browser
-            jPanelMenu = new JPanel(new BorderLayout());
-            jWebBrowserMenu = new JWebBrowser();
-            jWebBrowserMenu.navigate(parameters.getRutaIndex());
-            jWebBrowserMenu.setBarsVisible(false);
-            jWebBrowserMenu.setButtonBarVisible(false);
-            jWebBrowserMenu.setStatusBarVisible(true);
-            jPanelMenu.add(jWebBrowserMenu, BorderLayout.CENTER);
+            this.jPanelMenu = new JPanel(new BorderLayout());
+            this.jWebBrowserMenu = new JWebBrowser();
+            this.jWebBrowserMenu.navigate(this.parameters.getRutaIndex());
+            this.jWebBrowserMenu.setBarsVisible(false);
+            this.jWebBrowserMenu.setButtonBarVisible(false);
+            this.jWebBrowserMenu.setStatusBarVisible(true);
+            this.jPanelMenu.add(this.jWebBrowserMenu, BorderLayout.CENTER);
             // Añadimos listener para capturar los enlaces
-            jWebBrowserMenu.addWebBrowserListener(new WebBrowserAdapter() {     
+            this.jWebBrowserMenu.addWebBrowserListener(new WebBrowserAdapter() {     
                 @Override
                 public void locationChanging(WebBrowserNavigationEvent e) {
-                    if (e.getNewResourceLocation().startsWith("quiter")) {
-                        System.out.println(e.getNewResourceLocation());
-                        e.consume();
+                    if (e.getNewResourceLocation().startsWith("facturacion")) {
+                        e.consume();                        
+                        String url = e.getNewResourceLocation().substring(14, e.getNewResourceLocation().length()-1);
+                        System.out.println(url);
+                        
+                        try {
+                            Class clase = Class.forName(url);
+                            Constructor[] constructors = clase.getConstructors();
+                            constructors[1].setAccessible(true);
+                            Object object = constructors[1].newInstance(jFrameMenu, true);
+                            
+                        } catch (ClassNotFoundException | SecurityException | IllegalArgumentException ex) {
+                            Logger.getLogger(WebMenu.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (InstantiationException | IllegalAccessException | InvocationTargetException ex) {
+                            Logger.getLogger(WebMenu.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 }
             });
-            jFrameMenu.add(jPanelMenu);           
+            this.jFrameMenu.add(this.jPanelMenu);
+            
+            //******************************************************************
+            // Recorremos los metodos
+            System.out.println("\nLista de metodos:\n");
+            Class clase = null;
+            try {
+                clase = Class.forName("jmb.facturacion.frontend.views.ParametersBBDD");
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(WebMenu.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            Constructor[] constructores = clase.getConstructors();
+            for (int i=0; i < constructores.length; i++) {
+                System.out.print("\t" + constructores[i].getName() + " (");
+                
+                Class[] params = constructores[i].getParameterTypes();
+            if (params.length > 0)
+            {
+                for (int iPar = 0; iPar < params.length; iPar++)
+                {
+                    Field fields[] = params[iPar].getDeclaredFields();
+                    System.out.println("param: "+params[iPar]);
+                    for (int iFields = 0; iFields < fields.length; iFields++)
+                    {
+                        String fieldName = fields[i].getName();
+                        System.out.println("field: "+fieldName);
+                    }                                       
+                }
+            }
+            }
+            //******************************************************************
             
             // Menu
-            jMenuBarMenu = new JMenuBar();
-            jFrameMenu.setJMenuBar(jMenuBarMenu);
-            jMenuAplicacion = new JMenu("Aplicación");
-            jMenuBarMenu.add(jMenuAplicacion);
-            jMenuItemDesconectar=new JMenuItem("Desconectar");
-            jMenuItemDesconectar.addActionListener(this);
-            jMenuAplicacion.add(jMenuItemDesconectar);
-            jMenuAplicacion.addSeparator();
-            jMenuItemSalir = new JMenuItem("Salir");
-            jMenuItemSalir.addActionListener(this);
-            jMenuAplicacion.add(jMenuItemSalir);
+            this.jMenuBarMenu = new JMenuBar();
+            this.jFrameMenu.setJMenuBar(this.jMenuBarMenu);
+            this.jMenuAplicacion = new JMenu("Aplicación");
+            this.jMenuBarMenu.add(this.jMenuAplicacion);
+            this.jMenuItemDesconectar = new JMenuItem("Desconectar");
+            this.jMenuItemDesconectar.addActionListener(this);
+            this.jMenuAplicacion.add(this.jMenuItemDesconectar);
+            this.jMenuAplicacion.addSeparator();
+            this.jMenuItemSalir = new JMenuItem("Salir");
+            this.jMenuItemSalir.addActionListener(this);
+            this.jMenuAplicacion.add(this.jMenuItemSalir);
             
-            jFrameMenu.addWindowListener(new WindowAdapter() {
+            this.jFrameMenu.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosing(WindowEvent e) {
                     if (JOptionPane.showConfirmDialog(rootPane, "¿Desea cerrar del programa?", "Salir", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
@@ -89,8 +136,8 @@ public class WebMenu extends JFrame implements ActionListener {
                 }
             });
             
-            jFrameMenu.setSize(1280, 720);
-            jFrameMenu.setVisible(true);
+            this.jFrameMenu.setSize(1280, 720);
+            this.jFrameMenu.setVisible(true);
         } else {
             NativeInterface.close();
             System.exit(0);
@@ -99,10 +146,17 @@ public class WebMenu extends JFrame implements ActionListener {
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == jMenuItemDesconectar) {
-            
+        if (e.getSource() == this.jMenuItemDesconectar) {
+            this.login = new Login(this, true, parameters.getVersion());
+            this.login.setVisible(true);
+            if (this.login.returnIdSession() != 0) {
+                this.jWebBrowserMenu.navigate(this.parameters.getRutaIndex());
+            } else {
+                NativeInterface.close();
+                System.exit(0);
+            }
         }
-        if (e.getSource() == jMenuItemSalir) {
+        if (e.getSource() == this.jMenuItemSalir) {
             if (JOptionPane.showConfirmDialog(rootPane, "¿Desea cerrar del programa?", "Salir", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 NativeInterface.close();
                 System.exit(0);
@@ -110,7 +164,8 @@ public class WebMenu extends JFrame implements ActionListener {
         }
     }
     
-    private final Login login;
+    private final Parameters parameters;
+    private Login login;
     private final JFrame jFrameMenu;
     private JPanel jPanelMenu;
     private JWebBrowser jWebBrowserMenu;

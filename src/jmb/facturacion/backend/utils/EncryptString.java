@@ -5,6 +5,9 @@
  */
 package jmb.facturacion.backend.utils;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author jose
@@ -16,17 +19,17 @@ public class EncryptString {
             byte[] array = md.digest(md5.getBytes());
             StringBuffer sb = new StringBuffer();
             
-            //sb = null;
-            
             for (int i = 0; i < array.length; ++i) {
                 sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1,3));
             }
-            md5 = sb.toString();
-        } catch (java.security.NoSuchAlgorithmException e) {}
+            this.md5 = sb.toString();
+        } catch (java.security.NoSuchAlgorithmException ex) {
+            Logger.getLogger(EncryptString.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public String getMd5() {
-        return md5;
+        return this.md5;
     }
     
     private String md5 = null;

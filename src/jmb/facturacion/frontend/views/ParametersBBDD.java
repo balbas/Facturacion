@@ -5,6 +5,10 @@
  */
 package jmb.facturacion.frontend.views;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import jmb.facturacion.backend.utils.PropertiesFile;
+
 /**
  *
  * @author jmbalbas
@@ -12,7 +16,7 @@ package jmb.facturacion.frontend.views;
 public class ParametersBBDD extends javax.swing.JDialog {
 
     /**
-     * Creates new form ConfigBBDD
+     * Creates new form ConfigBBDD (JDialog parent)
      * @param parent
      * @param modal
      */
@@ -22,11 +26,21 @@ public class ParametersBBDD extends javax.swing.JDialog {
         setTitle("Parámetros de la Base de Datos");
         setLocationRelativeTo(null);
         
-        // Agregamos los Tipos de Base de Datos disponibles
-        jComboBoxTiposBBDD.removeAllItems();
-        jComboBoxTiposBBDD.addItem("");
-        jComboBoxTiposBBDD.addItem("SQLite");
-        jComboBoxTiposBBDD.addItem("MySQL");
+        initAll();
+    }
+    
+    /**
+     * Creates new form ConfigBBDD (JFrame parent)
+     * @param parent
+     * @param modal
+     */
+    public ParametersBBDD(javax.swing.JFrame parent, boolean modal) {
+        super(parent, modal);
+        initComponents();
+        setTitle("Parámetros de la Base de Datos");
+        setLocationRelativeTo(null);
+        
+        initAll();
     }
 
     /**
@@ -42,11 +56,9 @@ public class ParametersBBDD extends javax.swing.JDialog {
         jComboBoxTiposBBDD = new javax.swing.JComboBox();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jTextFieldURL = new javax.swing.JTextField();
-        jTextFieldPuerto = new javax.swing.JTextField();
         jTextFieldUsuario = new javax.swing.JTextField();
         jPasswordFieldContraseña = new javax.swing.JPasswordField();
 
@@ -64,7 +76,7 @@ public class ParametersBBDD extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jComboBoxTiposBBDD, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(131, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -80,10 +92,6 @@ public class ParametersBBDD extends javax.swing.JDialog {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText("URL");
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel2.setText("Puerto");
-
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel3.setText("Usuario");
@@ -93,8 +101,6 @@ public class ParametersBBDD extends javax.swing.JDialog {
         jLabel4.setText("Contraseña");
 
         jTextFieldURL.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-
-        jTextFieldPuerto.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
 
         jTextFieldUsuario.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
 
@@ -109,17 +115,13 @@ public class ParametersBBDD extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFieldURL)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextFieldPuerto, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                            .addComponent(jPasswordFieldContraseña))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(jTextFieldURL, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jTextFieldUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                        .addComponent(jPasswordFieldContraseña)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -131,17 +133,13 @@ public class ParametersBBDD extends javax.swing.JDialog {
                     .addComponent(jTextFieldURL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextFieldPuerto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jTextFieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jPasswordFieldContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -162,22 +160,49 @@ public class ParametersBBDD extends javax.swing.JDialog {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void initAll() {        
+        // Agregamos los Tipos de Base de Datos disponibles
+        this.jComboBoxTiposBBDD.removeAllItems();
+        this.jComboBoxTiposBBDD.addItem("");
+        this.jComboBoxTiposBBDD.addItem("SQLite");
+        this.jComboBoxTiposBBDD.addItem("MySQL");
+        
+        // Leemos las propiedades
+        this.jComboBoxTiposBBDD.setSelectedItem(PropertiesFile.getInstance().getProperty(PropertiesFile.BBDD_TYPE));
+        this.jTextFieldURL.setText(PropertiesFile.getInstance().getProperty(PropertiesFile.BBDD_URL));
+        this.jTextFieldUsuario.setText(PropertiesFile.getInstance().getProperty(PropertiesFile.BBDD_USER));
+        this.jPasswordFieldContraseña.setText(PropertiesFile.getInstance().getProperty(PropertiesFile.BBDD_PASSWORD));
+        
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                PropertiesFile.getInstance().setProperty("TipoBaseDatos", jComboBoxTiposBBDD.getSelectedItem().toString());
+                PropertiesFile.getInstance().setProperty("UrlBaseDatos", jTextFieldURL.getText());
+                PropertiesFile.getInstance().setProperty("UsuarioBaseDatos", jTextFieldUsuario.getText());
+                char[] pass = jPasswordFieldContraseña.getPassword();
+                String finalPass = "";
+                for (char x : pass) {
+                    finalPass += x;
+                }
+                PropertiesFile.getInstance().setProperty("ContraseñaBaseDatos", finalPass);
+            }
+        });
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox jComboBoxTiposBBDD;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField jPasswordFieldContraseña;
-    private javax.swing.JTextField jTextFieldPuerto;
     private javax.swing.JTextField jTextFieldURL;
     private javax.swing.JTextField jTextFieldUsuario;
     // End of variables declaration//GEN-END:variables
