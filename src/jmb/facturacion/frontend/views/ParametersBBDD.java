@@ -16,31 +16,27 @@ import jmb.facturacion.backend.utils.PropertiesFile;
 public class ParametersBBDD extends javax.swing.JDialog {
 
     /**
-     * Creates new form ConfigBBDD (JDialog parent)
+     * Creates new form ConfigBBDD (JDialog parent).
      * @param parent
      * @param modal
      */
     public ParametersBBDD(javax.swing.JDialog parent, boolean modal) {
         super(parent, modal);
-        initComponents();
-        setTitle("Parámetros de la Base de Datos");
-        setLocationRelativeTo(null);
-        
         initAll();
     }
     
     /**
-     * Creates new form ConfigBBDD (JFrame parent)
-     * @param parent
-     * @param modal
+     * Creates new form ConfigBBDD (no parent).
      */
-    public ParametersBBDD(javax.swing.JFrame parent, boolean modal) {
-        super(parent, modal);
-        initComponents();
-        setTitle("Parámetros de la Base de Datos");
-        setLocationRelativeTo(null);
-        
+    public ParametersBBDD() {
         initAll();
+    }
+    
+    /**
+     * Método para hacer visible una vista.
+     */
+    public void setViewVisible() {
+        this.setVisible(true);
     }
 
     /**
@@ -166,7 +162,11 @@ public class ParametersBBDD extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void initAll() {        
+    private void initAll() {
+        this.initComponents();
+        this.setTitle("Parámetros de la Base de Datos");
+        this.setLocationRelativeTo(null);
+        
         // Agregamos los Tipos de Base de Datos disponibles
         this.jComboBoxTiposBBDD.removeAllItems();
         this.jComboBoxTiposBBDD.addItem("");

@@ -203,7 +203,8 @@ public class Login extends JDialog {
     }//GEN-LAST:event_jButtonConectarActionPerformed
 
     private void jButtonParametrosBBDDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonParametrosBBDDActionPerformed
-        new ParametersBBDD(this, true).setVisible(true);
+        ParametersBBDD parametros = new ParametersBBDD(this, true);
+        parametros.setViewVisible();
     }//GEN-LAST:event_jButtonParametrosBBDDActionPerformed
 
     public Integer returnIdSession() {

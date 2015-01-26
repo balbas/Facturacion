@@ -14,13 +14,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -65,53 +62,32 @@ public class WebMenu extends JFrame implements ActionListener {
                     if (e.getNewResourceLocation().startsWith("facturacion")) {
                         e.consume();                        
                         String url = e.getNewResourceLocation().substring(14, e.getNewResourceLocation().length()-1);
-                        System.out.println(url);
                         
                         try {
                             Class clase = Class.forName(url);
-                            Constructor[] constructors = clase.getConstructors();
-                            constructors[1].setAccessible(true);
-                            Object object = constructors[1].newInstance(jFrameMenu, true);
-                            
-                        } catch (ClassNotFoundException | SecurityException | IllegalArgumentException ex) {
-                            Logger.getLogger(WebMenu.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (InstantiationException | IllegalAccessException | InvocationTargetException ex) {
+                            Object instance = clase.newInstance();
+                            Method setViewVisibleMethod = clase.getMethod("setViewVisible");
+                            setViewVisibleMethod.invoke(instance);
+                        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException ex) {
                             Logger.getLogger(WebMenu.class.getName()).log(Level.SEVERE, null, ex);
                         }
+                        /*
+                        try {
+                            Class clase = Class.forName(url);
+                            Class[] argTypes = {JFrame.class, Boolean.class};
+                            Constructor constructor = clase.getDeclaredConstructor(argTypes);
+                            Object[] arguments = {jFrameMenu, true};
+                            Object instance = constructor.newInstance(arguments);
+                            Method setViewVisibleMethod = clase.getMethod("setViewVisible", (Class) null);
+                            setViewVisibleMethod.invoke(instance, (Object) null);
+                        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                            Logger.getLogger(WebMenu.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        */
                     }
                 }
             });
             this.jFrameMenu.add(this.jPanelMenu);
-            
-            //******************************************************************
-            // Recorremos los metodos
-            System.out.println("\nLista de metodos:\n");
-            Class clase = null;
-            try {
-                clase = Class.forName("jmb.facturacion.frontend.views.ParametersBBDD");
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(WebMenu.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            Constructor[] constructores = clase.getConstructors();
-            for (int i=0; i < constructores.length; i++) {
-                System.out.print("\t" + constructores[i].getName() + " (");
-                
-                Class[] params = constructores[i].getParameterTypes();
-            if (params.length > 0)
-            {
-                for (int iPar = 0; iPar < params.length; iPar++)
-                {
-                    Field fields[] = params[iPar].getDeclaredFields();
-                    System.out.println("param: "+params[iPar]);
-                    for (int iFields = 0; iFields < fields.length; iFields++)
-                    {
-                        String fieldName = fields[i].getName();
-                        System.out.println("field: "+fieldName);
-                    }                                       
-                }
-            }
-            }
-            //******************************************************************
             
             // Menu
             this.jMenuBarMenu = new JMenuBar();
