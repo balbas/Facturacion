@@ -16,8 +16,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -45,7 +48,10 @@ public class WebMenu extends JFrame implements ActionListener {
         // Comprobamos si hay sesión
         if (this.login.returnIdSession() != 0) {
             // Establecemos el layout
-            this.jFrameMenu.setLayout(new BorderLayout());         
+            this.jFrameMenu.setLayout(new BorderLayout());
+            
+            // Variable para el manejo de las vistas
+            viewByType = new HashMap<>();
 
             // Web Browser
             this.jPanelMenu = new JPanel(new BorderLayout());
@@ -61,15 +67,30 @@ public class WebMenu extends JFrame implements ActionListener {
                 public void locationChanging(WebBrowserNavigationEvent e) {
                     if (e.getNewResourceLocation().startsWith("facturacion")) {
                         e.consume();                        
-                        String url = e.getNewResourceLocation().substring(14, e.getNewResourceLocation().length()-1);
+                        final String url = e.getNewResourceLocation().substring(14, e.getNewResourceLocation().length()-1);
+                        JDialog view = viewByType.get(url);
                         
-                        try {
-                            Class clase = Class.forName(url);
-                            Object instance = clase.newInstance();
-                            Method setViewVisibleMethod = clase.getMethod("setViewVisible");
-                            setViewVisibleMethod.invoke(instance);
-                        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException ex) {
-                            Logger.getLogger(WebMenu.class.getName()).log(Level.SEVERE, null, ex);
+                        if (view == null) {
+                            // Cargamos la vista una vez
+                            try {
+                                Class clase = Class.forName(url);
+                                //Object instance = clase.newInstance();
+                                view = (JDialog) clase.newInstance();
+                                Method setViewVisibleMethod = clase.getMethod("setViewVisible");
+                                setViewVisibleMethod.invoke(view);
+                                viewByType.put(url, view);
+                                view.addWindowListener(new WindowAdapter() {
+                                    @Override
+                                    public void windowClosed(WindowEvent evt) {
+                                        viewByType.remove(url);
+                                    }
+                                });
+                            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException ex) {
+                                Logger.getLogger(WebMenu.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        } else {
+                            // La vista existe, por lo que la traemos al frente
+                            view.toFront();
                         }
                         /*
                         try {
@@ -143,6 +164,7 @@ public class WebMenu extends JFrame implements ActionListener {
     private final Parameters parameters;
     private Login login;
     private final JFrame jFrameMenu;
+    private Map<String, JDialog> viewByType;
     private JPanel jPanelMenu;
     private JWebBrowser jWebBrowserMenu;
     private JMenuBar jMenuBarMenu;
