@@ -1,89 +1,65 @@
-var data = { menus: [
-{ 
-  label: 'Facturación',
-  href: '#',
-  submenus: [
-	{
-		label: 'Administrador de Facturas',
-		href: '..',
-		opciones: [
-		{
-			label: 'Consulta de Facturas',
-			href: 'quiter://SCR.CONTA.CRTEDFACQT'
-		},
-    {
-			label: 'Nueva Factura',
-			href: 'quiter://SCR.CONTA.CRTEDFACQT'
-		}]
-	},
-	{
-		label: 'Administrador de Informes',
-		opciones: [
-		{
-			label: 'Consulta de Informes',
-			href: 'quiter://SCR.CONTA.CRTEDEFCQT'
-		},
-    {
-			label: 'Nuevo Informe',
-			href: 'quiter://SCR.CONTA.CRTEDEFCQT'
-		}]
-	},
-  {
-		label: 'Ficheros Maestros',
-		opciones: [
-		{
-      label: 'Fichero de Clientes',
-      href: 'quiter://SCR.CONTA.FMCUEP'
-		},
-		{
-      label: 'Fichero de Empresas',
-			href: 'quiter://SCR.CONTA.FMCUCQT'
-		}]
-	}],
-  submenusExt: [
-  {
-		label: '',
-		opciones: [
-			{
-
-			}
-		]
-	},
-  {
-		label: 'Ejecutar Informes',
-		opciones: [
-			{
-			label: 'Ejecutar Informes',
-			href: 'quiter://SCR.CONTA.CRTEDPESPT/?XK=CQT'
-			}
-		]
-	},
-  ]
-},
-{ 
-  label: 'Configuración',
-  href: '#',
-  submenus: [
-	{
-		label: 'Parámetros de la Aplicación',
-		href: '..',
-		opciones: [
-		{
-      label: 'Definir Parámetros',
-			href: 'quiter://SCR.CONTA.CRTDG4CG'
-		}]
-	},
-	{
-		label: 'Base de Datos',
-		opciones: [
-    {
-      label: 'Parámetros de la Base de Datos',
-			href: 'facturacion://jmb.facturacion.frontend.views.ParametersBBDD'
-		},
-		{
-      label: 'Copias de Seguridad',
-			href: 'quiter://SCR.CONTA.CRTEDVCOMCG'
-		}]
-	}]
-}]};
-
+var data = { 
+    menus: [{ 
+        label: 'Facturaci&oacuten',
+        href: '#',
+        submenus: [{
+            label: 'Administrador de Facturas',
+            href: '..',
+            opciones: [{
+                label: 'Consulta de Facturas',
+                href: 'facturacion://jmb.facturacion.view.screens.menu.billing.CheckInvoices'
+            }, {
+                label: 'Nueva Factura',
+                href: '#'
+            }]
+        }, {
+            label: 'Administrador de Informes',
+            opciones: [{
+                label: 'Consulta de Informes',
+                href: '#'
+            }, {
+                label: 'Nuevo Informe',
+                href: '#'
+            }]
+        }, {
+            label: 'Ficheros Maestros',
+            opciones: [{
+                label: 'Fichero de Clientes',
+                href: '#'
+            }, {
+                label: 'Fichero de Empresas',
+                href: '#'
+            }]
+        }], submenusExt: [{
+            label: null
+            //opciones: [{
+            //}]
+        }, {
+            label: 'Ejecutar Informes',
+            opciones: [{
+                label: 'Ejecutar Informes',
+                href: '#'
+            }]
+        }]
+    }, { 
+        label: 'Configuraci&oacuten',
+        href: '#',
+        submenus: [{
+            label: 'Par&aacutemetros de la Aplicaci&oacuten',
+            href: '..',
+            opciones: [{
+                label: 'Definir Par&aacutemetros',
+                href: '#'
+            }]
+        }, {
+            label: 'Base de Datos',
+            opciones: [{
+                label: 'Par&aacutemetros de la Base de Datos',
+                href: 'facturacion://jmb.facturacion.view.screens.menu.configuration.ParametersBBDD'
+            }, {
+                label: 'Copias de Seguridad',
+                href: '#'
+            }]
+        }]
+    }]
+};

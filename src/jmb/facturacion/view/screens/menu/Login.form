@@ -68,7 +68,7 @@
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                       <Component id="jLabel4" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jLabelVersion" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jLabel5" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           <Component id="jButtonParametrosBBDD" min="-2" pref="32" max="-2" attributes="0"/>
@@ -84,7 +84,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                  <Component id="jLabelVersion" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jButtonParametrosBBDD" max="32767" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -164,7 +164,7 @@
             <Property name="text" type="java.lang.String" value="Bienvenido al sistema"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabelVersion">
+        <Component class="javax.swing.JLabel" name="jLabel5">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="12" style="0"/>
@@ -173,7 +173,7 @@
               <Color blue="7b" green="0" red="0" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="4"/>
-            <Property name="text" type="java.lang.String" value="jLabelVersion"/>
+            <Property name="text" type="java.lang.String" value="v1.0"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonParametrosBBDD">

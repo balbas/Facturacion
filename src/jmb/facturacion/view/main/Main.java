@@ -3,14 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jmb.facturacion.main;
+package jmb.facturacion.view.main;
 
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
 import java.awt.EventQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UnsupportedLookAndFeelException;
-import jmb.facturacion.frontend.views.WebMenu;
 
 /**
  *
@@ -33,7 +32,7 @@ public class Main {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                WebMenu webMenu = new WebMenu();
+                jmb.facturacion.view.screens.menu.WebMenu webMenu = new jmb.facturacion.view.screens.menu.WebMenu();
             }
         });
         

@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jmb.facturacion.backend.utils;
+package jmb.facturacion.controller.utils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jmb.facturacion.backend.bbdd.ConnectionBBDD;
+import jmb.facturacion.model.bbdd.ConnectionBBDD;
 
 /**
  *
@@ -18,51 +18,51 @@ import jmb.facturacion.backend.bbdd.ConnectionBBDD;
  */
 public class Session {
     public Session() {
-        CONNECTION = new ConnectionBBDD();
-        STATEMENT = null;
-        RESULTSET = null;
-        ID_SESSION = 0;
-        COMPANY = 0;
-        DATE = "";
-        HOUR = "";
+        this.CONNECTION = new ConnectionBBDD();
+        this.STATEMENT = null;
+        this.RESULTSET = null;
+        this.ID_SESSION = 0;
+        this.COMPANY = 0;
+        this.DATE = "";
+        this.HOUR = "";
     }
     
     public void register(Integer company, String date, String hour) {
-        COMPANY = company;
-        DATE = date;
-        HOUR = hour;
+        this.COMPANY = company;
+        this.DATE = date;
+        this.HOUR = hour;
         
         try {
-            STATEMENT = CONNECTION.getConnection().createStatement();
-            STATEMENT.executeUpdate("INSERT INTO sesiones VALUES(NULL, " + COMPANY + ", '" + DATE + "', '" + HOUR + "');");
-            CONNECTION.getConnection().commit();
-            RESULTSET = STATEMENT.executeQuery("SELECT MAX(id) FROM sesiones;");
-            if (RESULTSET.next()) {
-                ID_SESSION = RESULTSET.getInt(1);
+            this.STATEMENT = this.CONNECTION.getConnection().createStatement();
+            this.STATEMENT.executeUpdate("INSERT INTO sesiones VALUES(NULL, " + this.COMPANY + ", '" + this.DATE + "', '" + this.HOUR + "');");
+            this.CONNECTION.getConnection().commit();
+            this.RESULTSET = this.STATEMENT.executeQuery("SELECT MAX(id) FROM sesiones;");
+            if (this.RESULTSET.next()) {
+                this.ID_SESSION = this.RESULTSET.getInt(1);
             }
         } catch (SQLException ex) {
             Logger.getLogger(Session.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            close();
+            this.close();
         }
     }
     
     public void close() {
         try {
-            if (STATEMENT != null) STATEMENT.close();
-            if (RESULTSET != null) RESULTSET.close();
-            CONNECTION.close();
+            if (this.STATEMENT != null) this.STATEMENT.close();
+            if (RESULTSET != null) this.RESULTSET.close();
+            this.CONNECTION.close();
         } catch (SQLException ex) {
             Logger.getLogger(Session.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     public Integer getIdSession() {
-        return ID_SESSION;
+        return this.ID_SESSION;
     }
     
     public Integer getCompany() {
-        return COMPANY;
+        return this.COMPANY;
     }
     
     // Variables de conexión

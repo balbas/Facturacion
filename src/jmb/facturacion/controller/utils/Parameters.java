@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jmb.facturacion.backend.utils;
+package jmb.facturacion.controller.utils;
 
 import java.sql.SQLException;
 import java.util.logging.Level;

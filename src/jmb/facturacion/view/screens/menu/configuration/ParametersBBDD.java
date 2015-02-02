@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jmb.facturacion.frontend.views;
+package jmb.facturacion.view.screens.menu.configuration;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import jmb.facturacion.backend.utils.PropertiesFile;
+import jmb.facturacion.controller.utils.PropertiesFile;
 
 /**
  *
@@ -16,7 +16,7 @@ import jmb.facturacion.backend.utils.PropertiesFile;
 public class ParametersBBDD extends javax.swing.JDialog {
 
     /**
-     * Creates new form ConfigBBDD (JDialog parent).
+     * Creates new form ParametersBBDD (JDialog parent).
      * @param parent
      * @param modal
      */
@@ -26,7 +26,7 @@ public class ParametersBBDD extends javax.swing.JDialog {
     }
     
     /**
-     * Creates new form ConfigBBDD (no parent).
+     * Creates new form ParametersBBDD (no parent).
      */
     public ParametersBBDD() {
         initAll();
@@ -152,11 +152,11 @@ public class ParametersBBDD extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addGap(24, 24, 24)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pack();

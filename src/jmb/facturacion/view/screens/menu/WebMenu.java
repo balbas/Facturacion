@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jmb.facturacion.frontend.views;
+package jmb.facturacion.view.screens.menu;
 
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
@@ -27,26 +27,29 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import jmb.facturacion.backend.utils.Parameters;
+import jmb.facturacion.controller.utils.Parameters;
 
 /**
  *
  * @author jmbalbas
  */
 public class WebMenu extends JFrame implements ActionListener {
-    public WebMenu() {        
-        // Cargamos los parámetros de la aplicación
-        this.parameters = new Parameters();
-        
+    public WebMenu() {      
         // Iniciamos la ventana principal
-        this.jFrameMenu = new JFrame("Facturación v" + parameters.getVersion());
+        this.jFrameMenu = new JFrame();
 
         // Lanzamos el login
-        this.login = new Login(this, true, parameters.getVersion());
+        this.login = new Login(this, true);
         this.login.setVisible(true);
         
         // Comprobamos si hay sesión
         if (this.login.returnIdSession() != 0) {
+            // Cargamos los parámetros de la aplicación
+            this.parameters = new Parameters();
+            
+            // Título de la aplicación
+            this.jFrameMenu.setTitle("Facturación " + parameters.getVersion());
+            
             // Establecemos el layout
             this.jFrameMenu.setLayout(new BorderLayout());
             
@@ -71,13 +74,12 @@ public class WebMenu extends JFrame implements ActionListener {
                         JDialog view = viewByType.get(url);
                         
                         if (view == null) {
-                            // Cargamos la vista una vez
+                            // Cargamos la vista una vez y la añadimos a nuestro Map
                             try {
                                 Class clase = Class.forName(url);
-                                //Object instance = clase.newInstance();
                                 view = (JDialog) clase.newInstance();
-                                Method setViewVisibleMethod = clase.getMethod("setViewVisible");
-                                setViewVisibleMethod.invoke(view);
+                                Method setViewVisibleMethod = clase.getMethod("setViewVisible", Integer.class);
+                                setViewVisibleMethod.invoke(view, login.getCompanySession());
                                 viewByType.put(url, view);
                                 view.addWindowListener(new WindowAdapter() {
                                     @Override
@@ -92,19 +94,6 @@ public class WebMenu extends JFrame implements ActionListener {
                             // La vista existe, por lo que la traemos al frente
                             view.toFront();
                         }
-                        /*
-                        try {
-                            Class clase = Class.forName(url);
-                            Class[] argTypes = {JFrame.class, Boolean.class};
-                            Constructor constructor = clase.getDeclaredConstructor(argTypes);
-                            Object[] arguments = {jFrameMenu, true};
-                            Object instance = constructor.newInstance(arguments);
-                            Method setViewVisibleMethod = clase.getMethod("setViewVisible", (Class) null);
-                            setViewVisibleMethod.invoke(instance, (Object) null);
-                        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-                            Logger.getLogger(WebMenu.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        */
                     }
                 }
             });
@@ -144,7 +133,7 @@ public class WebMenu extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == this.jMenuItemDesconectar) {
-            this.login = new Login(this, true, parameters.getVersion());
+            this.login = new Login(this, true);
             this.login.setVisible(true);
             if (this.login.returnIdSession() != 0) {
                 this.jWebBrowserMenu.navigate(this.parameters.getRutaIndex());
@@ -161,7 +150,7 @@ public class WebMenu extends JFrame implements ActionListener {
         }
     }
     
-    private final Parameters parameters;
+    private Parameters parameters = null;
     private Login login;
     private final JFrame jFrameMenu;
     private Map<String, JDialog> viewByType;
