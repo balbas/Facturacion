@@ -50,8 +50,8 @@ public class Session {
     public void close() {
         try {
             if (this.STATEMENT != null) this.STATEMENT.close();
-            if (RESULTSET != null) this.RESULTSET.close();
-            this.CONNECTION.close();
+            if (this.RESULTSET != null) this.RESULTSET.close();
+            if (this.CONNECTION != null) this.CONNECTION.close();
         } catch (SQLException ex) {
             Logger.getLogger(Session.class.getName()).log(Level.SEVERE, null, ex);
         }

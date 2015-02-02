@@ -28,6 +28,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import jmb.facturacion.controller.utils.Parameters;
+import jmb.facturacion.model.bbdd.QueryManager;
 
 /**
  *
@@ -107,6 +108,9 @@ public class WebMenu extends JFrame implements ActionListener {
             this.jMenuItemDesconectar = new JMenuItem("Desconectar");
             this.jMenuItemDesconectar.addActionListener(this);
             this.jMenuAplicacion.add(this.jMenuItemDesconectar);
+            this.jMenuItemParametros = new JMenuItem("Parámetros");
+            this.jMenuItemParametros.addActionListener(this);
+            this.jMenuAplicacion.add(this.jMenuItemParametros);
             this.jMenuAplicacion.addSeparator();
             this.jMenuItemSalir = new JMenuItem("Salir");
             this.jMenuItemSalir.addActionListener(this);
@@ -142,6 +146,13 @@ public class WebMenu extends JFrame implements ActionListener {
                 System.exit(0);
             }
         }
+        if (e.getSource() == this.jMenuItemParametros) {
+            String ruta = JOptionPane.showInputDialog(getRootPane(), "Ruta index.html:", "Parámetros de la Aplicación", 1);
+            if ((ruta != null) && (!ruta.isEmpty())) {
+                new QueryManager("update parametros set ruta_index='" + ruta + "' where id=1;");
+                this.jWebBrowserMenu.reloadPage();
+            }
+        }
         if (e.getSource() == this.jMenuItemSalir) {
             if (JOptionPane.showConfirmDialog(rootPane, "¿Desea cerrar del programa?", "Salir", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 NativeInterface.close();
@@ -159,5 +170,6 @@ public class WebMenu extends JFrame implements ActionListener {
     private JMenuBar jMenuBarMenu;
     private JMenu jMenuAplicacion;
     private JMenuItem jMenuItemDesconectar;
+    private JMenuItem jMenuItemParametros;
     private JMenuItem jMenuItemSalir;
 }

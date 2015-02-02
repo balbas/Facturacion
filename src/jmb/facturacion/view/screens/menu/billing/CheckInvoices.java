@@ -6,13 +6,10 @@
 package jmb.facturacion.view.screens.menu.billing;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import jmb.facturacion.controller.render.ColumnHeaderRenderer;
-import jmb.facturacion.controller.utils.Session;
 import jmb.facturacion.model.bbdd.ConnectionBBDD;
+import jmb.facturacion.model.bbdd.QueryManager;
 
 /**
  *
@@ -32,18 +29,10 @@ public class CheckInvoices extends javax.swing.JDialog {
      * @param company
      */
     public void setViewVisible(Integer company) {
+        this.company = company;        
+        this.jTextFieldIdEmpresa.setText(String.valueOf(this.company));
+        //this.jLabelNombreEmpresa.setText((String) new QueryManager("select nombre from empresas where id=" + this.company + ";").getValues(0));
         this.setVisible(true);
-        
-        this.jTextFieldIdEmpresa.setText(String.valueOf(company));
-        try {
-            this.statement = this.connection.getConnection().createStatement();
-            this.resultset = this.statement.executeQuery("SELECT nombre FROM empresas WHERE id=" + Integer.valueOf(this.jTextFieldIdEmpresa.getText()) + ";");
-            if (this.resultset.next()) {
-                this.jLabelNombreEmpresa.setText(this.resultset.getString("nombre"));
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(CheckInvoices.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     /**
@@ -313,9 +302,6 @@ public class CheckInvoices extends javax.swing.JDialog {
         this.jTableFacturas.setDefaultRenderer(Object.class, new ColumnHeaderRenderer());
         this.jLabelNombreEmpresa.setText("");
         this.jLabelNombreCliente.setText("");
-       
-        this.connection = new ConnectionBBDD();
-        this.connection.connect();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -341,7 +327,5 @@ public class CheckInvoices extends javax.swing.JDialog {
     private javax.swing.JTextField jTextFieldSeleccion;
     // End of variables declaration//GEN-END:variables
 
-    private ConnectionBBDD connection;
-    private Statement statement;
-    private ResultSet resultset;
+    private Integer company;
 }

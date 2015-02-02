@@ -26,7 +26,7 @@ public class Parameters {
         try {
             session.CONNECTION.connect();
             session.STATEMENT = session.CONNECTION.getConnection().createStatement();
-            session.RESULTSET = session.STATEMENT.executeQuery("SELECT * FROM parametros;");
+            session.RESULTSET = session.STATEMENT.executeQuery("select * from parametros;");
             if (session.RESULTSET.next()) {
                 VERSION = session.RESULTSET.getString(2);
                 RUTA_INDEX = session.RESULTSET.getString(3);
